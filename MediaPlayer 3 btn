@@ -1,0 +1,52 @@
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/stopBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@android:drawable/checkbox_off_background" />
+
+        <ImageButton
+            android:id="@+id/pauseBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@android:drawable/ic_media_pause" />
+
+        <ImageButton
+            android:id="@+id/playBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@android:drawable/ic_media_play" />
+    </LinearLayout>
+
+
+
+**************************************************************************
+
+        var mediaPlayer: MediaPlayer=MediaPlayer()
+
+        playBtn.setOnClickListener {
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.music)
+                //mediaPlayer = MediaPlayer.create(this, Uri.parse("http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.mp3"))
+                mediaPlayer!!.isLooping = true
+                mediaPlayer!!.start()
+            } else mediaPlayer!!.start()
+        }
+
+        pauseBtn.setOnClickListener {
+            if (mediaPlayer != null && mediaPlayer!!.isPlaying){
+                mediaPlayer!!.pause()
+            }
+        }
+
+        stopBtn.setOnClickListener {
+            if (mediaPlayer != null) {
+                mediaPlayer!!.stop()
+                mediaPlayer!!.release()
+
+            }
+        }
