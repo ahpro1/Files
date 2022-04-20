@@ -1,0 +1,19 @@
+ <Button
+        android:id="@+id/play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="start" />
+
+*********************
+
+play.setOnClickListener{
+            if (play.text=="start"){
+                mediaPlayer?.reset()
+                mediaPlayer = MediaPlayer.create(this, R.raw.music)
+                mediaPlayer.start()
+                play.text="stop"
+            }else if (play.text=="stop"){
+                mediaPlayer.stop()
+                play.text="start"
+            }
+        }
