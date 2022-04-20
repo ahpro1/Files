@@ -1,0 +1,45 @@
+  val id = 1
+        val ChannelId = "cId_1"
+
+        notification.setOnClickListener { 
+            val importance=NotificationManager.IMPORTANCE_HIGH
+            val mChannel=NotificationChannel("cId_1","name",importance)
+            val notification=NotificationCompat.Builder(this,ChannelId)
+                .setSmallIcon(R.drawable.ic_baseline_notifications_none_24)
+                .setContentTitle("APPLICATION")
+                .setContentText("THERE IS A NEW NOTIFICATION")
+                .build()
+            val mNotificationManager=getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            mNotificationManager.createNotificationChannel(mChannel)
+            mNotificationManager.notify(id,notification)
+
+        }
+        
+        
+        
+       
+#######################################
+############FRAGMINT###################
+
+
+ val id = 1
+                    val ChannelId = "cId_1"
+
+
+                    val CHANNEL_ID = "channel_id";
+                    val importance = NotificationManager.IMPORTANCE_HIGH;
+                    val myNotificationManager = getActivity()?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val myChannel = NotificationChannel(CHANNEL_ID, "Channel Name", importance);
+                        myNotificationManager.createNotificationChannel(myChannel);
+                    }
+                    val notification = NotificationCompat.Builder(requireActivity().applicationContext, CHANNEL_ID)
+                            .setSmallIcon(R.drawable.ic_launcher_background)
+                            .setContentTitle("title")
+                            .setContentText("text")
+                            .build();
+                    myNotificationManager.notify(2468, notification);
+                }
+                
+####################################################
