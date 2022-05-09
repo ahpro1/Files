@@ -64,3 +64,112 @@ costom dialog
             }
         }
 
+***********************************************************************************************************
+  customView.imgDelete.setOnClickListener {
+            val builder= AlertDialog.Builder(context)
+            builder.setTitle("Title")
+            builder.setMessage("هل تريد الحذف؟")
+            builder.setPositiveButton("ok"){ _: DialogInterface, Int ->
+
+                val db=DataBase(context)
+                db.delete2(data[position].id)
+                data.removeAt(position)
+                this.notifyDataSetChanged()
+                Toast.makeText(context, "record deleted", Toast.LENGTH_LONG).show()
+
+            }
+            builder.setNeutralButton("cancel"){_: DialogInterface , Int ->
+
+            }
+
+            val dialog=builder.create()
+            dialog.show()
+        }
+****************************************************************************************************************************
+btnserch.setOnClickListener {
+            val dp=DataBase(this)
+            var type=""
+            if (rs3.isChecked){
+            type="صغيرة"
+            }else if (rs2.isChecked){
+            type="جيب"
+            }else if (rs1.isChecked){
+            type="شاحنة"
+            }
+            val arrayList=dp.serch(type)
+            val myAdapter=CastomAdapter(this,arrayList)
+            mylauot.adapter=myAdapter
+        }
+  ****************************************************************************************************************************
+fun serch(type:String):ArrayList<Data>{//بتغيرها حسب الي بدو يبحث فيها بكون كاتبلك (type:String)
+        val carliste=ArrayList<Data>()
+        try {
+            val dp=readableDatabase
+            val sql="select * from $TABLe_NAME where $TYPE=?;"
+            dp.rawQuery(sql, arrayOf(type)).use {//وبدك تحطها هين وف شرط فوق بس الي فوق الي معرفها ف الداتا نفسها اما الي تحت الي بطلبها منك ومش شرط يكون type حسب المعطى
+                if (it.count!=0){
+                    it.moveToFirst()
+                    do {
+                        val id=it.getInt(it.getColumnIndex(ID))
+                        val name=it.getString(it.getColumnIndex(NAME))
+                        val type=it.getString(it.getColumnIndex(TYPE))
+                        val company=it.getString(it.getColumnIndex(COMPANY))
+                        val peice=it.getString(it.getColumnIndex(PRICE))
+                        carliste.add(Data(name,company,peice,type, id))
+                    }while (it.moveToNext())
+                }
+            }
+
+            dp.close()
+
+        }catch (e:Exception){
+            throw e.fillInStackTrace()
+        }
+        return carliste
+    }
+ ***************************************************************************************************************************
+ get for show
+ 
+     val db=DataBase(this)
+        val data=db.Get()
+        val myAdapter=CustomAdapter(this,data)
+        myList.adapter=myAdapter
+   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   search *****
+   
+   btnserch.setOnClickListener {
+            val dp=DataBase(this)
+            val arrayList=dp.serch(edtserch.text.toString())
+            val myAdapter=CastomAdapter(this,arrayList)
+            mylauot.adapter=myAdapter
+        }
+  *********************************************************************************************
+  search db ///
+  
+  
+    fun search(name:String): ArrayList<Class_Data> {
+        val dataList = ArrayList<Class_Data>()
+        try {
+            val db = readableDatabase
+            val sql = "select * from $TABLE_NAME where $MED_NAME=?;"
+            db.rawQuery(sql, arrayOf(name)).use {
+                if (it.count != 0) {
+                    it.moveToFirst()
+                    do {
+                        val id = it.getInt(it.getColumnIndex(ID))
+                        val name = it.getString(it.getColumnIndex(MED_NAME))
+                        val type = it.getString(it.getColumnIndex(TYPE))
+                        val quantity = it.getString(it.getColumnIndex(QUANTITY))
+                        val price = it.getString(it.getColumnIndex(PRICE))
+                        val product = it.getString(it.getColumnIndex(PRUDECT_DATE))
+                        val expire = it.getString(it.getColumnIndex(EXPIRE_DATE))
+                        dataList.add(Class_Data(id, name, type, quantity, price, product, expire))
+                    } while (it.moveToNext())
+                }
+            }
+            db.close()
+        } catch (e: Exception) {
+            throw e.fillInStackTrace()
+        }
+        return dataList
+    }
